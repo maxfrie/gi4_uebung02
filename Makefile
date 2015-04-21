@@ -18,5 +18,5 @@ clean:
 	rm editor *.o
 
 install:
-	cp $@ /usr/bin/
-	chmod 555 /usr/bin/$@
+	cp editor /usr/bin/
+	chmod 555 /usr/bin/editor
