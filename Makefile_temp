@@ -1,0 +1,20 @@
+CC=gcc
+CFLAGS=-Wall -g
+LDFLAGS=
+
+.PHONY: clean install
+
+all: editor
+
+editor: main.o input.o
+	$(CC) $(CFLAGS) -o editor main.o input.o	
+
+main.o: main.c utils.h types.h defs.h
+input.o: input.c types.h
+
+clean:
+	rm -f editor *.o
+
+install: editor
+	cp editor /usr/bin/
+	chmod 555 /usr/bin/editor

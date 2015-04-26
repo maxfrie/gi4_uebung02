@@ -1,22 +1,30 @@
-CC=cc
-INPUT=main.o input.o
+CC=gcc
+CFLAGS= -Wall -g
+LDFLAGS=
 
-default: editor
+OBJS= main.o input.o
+EXE = Editor
 
-editor: $(INPUT)
-	$(CC) -o editor $(INPUT)	
+.PHONY: clean install depend
 
-main.o: main.c input.o utils.h
-	$(CC) -c main.c
+$(EXE): $(OBJS)
+	$(CC) $(CLFAGS) -o $(EXE) $(OBJS)
 
-input.o: input.c
-	$(CC) -c input.c
+$(OBJS): Makefile
 
-utils.h: types.h defs.h
+depend:
+	$(CC) -MM $(OBJS:.o=.c) > .depend
+	make
+
+.depend:
+	touch .depend
+	make depend
 
 clean:
-	rm editor *.o
+	rm -f $(OBJS) $(EXE) .depend
 
-install:
-	cp editor /usr/bin/
-	chmod 555 /usr/bin/editor
+install: $(EXE)
+	cp $(EXE) /usr/bin/
+	chmod 555 /usr/bin/$(EXE)
+
+include .depend
